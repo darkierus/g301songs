@@ -31,6 +31,11 @@ button,a{font:inherit}
   font-size:23px;font-weight:900;color:#11151d;
   background:linear-gradient(135deg,var(--accent),var(--accent2))
 }
+.brand-icon {
+  width: 25px;
+  height: 25px;
+  display: block;
+}
 .brand-copy strong{display:block;font-size:18px}
 .brand-copy span{color:var(--muted);font-size:13px}
 .hero{
@@ -596,7 +601,14 @@ body.lyrics-mode .player-buttons {
 <main class="app">
   <header class="topbar">
     <div class="brand">
-      <div class="brand-mark">♫</div>
+      <div class="brand-mark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-music preview-icon">
+          <path d="M9 18V5l12-2v13" />
+          <circle cx="6" cy="18" r="3" />
+          <circle cx="18" cy="16" r="3" />
+        </svg>
+      </div>
       <div class="brand-copy">
         <strong>Classroom Music</strong>
         <span>Songs, lyrics & lyric videos</span>
@@ -667,7 +679,7 @@ body.lyrics-mode .player-buttons {
           <img src="covers/04.png" alt="What Did You Do Yesterday (Festival Remix)">
         </div>
         <div class="song-info">
-          <h3 class="song-title">What Did You Do Yesterday (Festival Remix)</h3>
+          <h3 class="song-title">What Did You Do Yesterday? (Festival Remix)</h3>
           <div class="song-meta"><span>G201</span></div>
         </div>
         <div class="song-actions">
@@ -753,7 +765,7 @@ body.lyrics-mode .player-buttons {
 </div>
 <script src="lyrics/lyrics.js"></script>
 <script>
-const songs = [{"id": "what-did-you-do-yesterday", "title": "What Did You Do Yesterday?", "audio": "songs/What Did You Do Yesterday.mp3", "lyrics": "what-did-you-do-yesterday", lyricsVideo: "lyrics-videos/what_did_you_do_yesterday_lyrics" }, {"id": "fantastic-world-dance", "title": "Fantastic World Dance", "audio": "songs/Fantastic World Dance.mp3", "lyrics": "fantastic-world-dance", lyricsVideo: "lyrics-videos/fantastic_world_dance_lyrics.html"}, {"id": "pizza-left-right", "title": "Pizza Left-Right (G201 Anthem)", "audio": "songs/Pizza Left-Right (G201 Anthem).mp3", "lyrics": "pizza-left-right", lyricsVideo: "lyrics-videos/g201_anthem_lyrics"}, {"id": "what-did-you-do-yesterday-festival-remix", "title": "What Did You Do Yesterday (Festival Remix)", "audio": "songs/What Did You Do Yesterday (Festival Remix).mp3", "lyrics": "lyrics/what-did-you-do-yesterday-festival-remix.js"}, {"id": "fantastic-world-dance-eurodance-remix", "title": "Fantastic World Dance (Eurodance Remix)", "audio": "songs/Fantastic World Dance (Eurodance Remix).mp3", "lyrics": "lyrics/fantastic-world-dance-eurodance-remix.js"}, {"id": "pizza-left-right-dnb-remix", "title": "Pizza Left-Right (G201 Anthem) (Drum'n'Bass Remix)", "audio": "songs/Pizza Left-Right (G201 Anthem) (Drum'n'Bass Remix).mp3", "lyrics": "lyrics/pizza-left-right-dnb-remix.js"}];
+const songs = [{"id": "what-did-you-do-yesterday", "title": "What Did You Do Yesterday?", "audio": "songs/What Did You Do Yesterday.mp3", "lyrics": "what-did-you-do-yesterday", lyricsVideo: "lyrics-videos/what_did_you_do_yesterday_lyrics" }, {"id": "fantastic-world-dance", "title": "Fantastic World Dance", "audio": "songs/Fantastic World Dance.mp3", "lyrics": "fantastic-world-dance", lyricsVideo: "lyrics-videos/fantastic_world_dance_lyrics"}, {"id": "pizza-left-right", "title": "Pizza Left-Right (G201 Anthem)", "audio": "songs/Pizza Left-Right (G201 Anthem).mp3", "lyrics": "pizza-left-right", lyricsVideo: "lyrics-videos/g201_anthem_lyrics"}, {"id": "what-did-you-do-yesterday-festival-remix", "title": "What Did You Do Yesterday (Festival Remix)", "audio": "songs/What Did You Do Yesterday (Festival Remix).mp3", "lyrics": "lyrics/what-did-you-do-yesterday-festival-remix.js"}, {"id": "fantastic-world-dance-eurodance-remix", "title": "Fantastic World Dance (Eurodance Remix)", "audio": "songs/Fantastic World Dance (Eurodance Remix).mp3", "lyrics": "lyrics/fantastic-world-dance-eurodance-remix.js"}, {"id": "pizza-left-right-dnb-remix", "title": "Pizza Left-Right (G201 Anthem) (Drum'n'Bass Remix)", "audio": "songs/Pizza Left-Right (G201 Anthem) (Drum'n'Bass Remix).mp3", "lyrics": "lyrics/pizza-left-right-dnb-remix.js"}];
 
 const audio = document.getElementById("audioPlayer");
 const nowTitle = document.getElementById("nowTitle");
