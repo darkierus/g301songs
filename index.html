@@ -516,16 +516,23 @@ body.lyrics-mode .player-buttons {
 @media (max-width: 920px) and (orientation: landscape) {
   .lyrics-panel {
     top: 0;
-    bottom: 130px;
+    bottom: 118px;
     height: auto;
     padding-top: env(safe-area-inset-top);
+
+    grid-template-columns: minmax(0, 42%) minmax(0, 58%);
+    grid-template-rows: 1fr;
   }
+
   .lyrics-cover-side {
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
     padding: 12px;
+
+    border-bottom: 0;
+    border-right: 1px solid rgba(255,255,255,.10);
   }
 
   .lyrics-cover-side img {
@@ -534,7 +541,7 @@ body.lyrics-mode .player-buttons {
     height: auto;
     max-width: 100%;
     max-height: 100%;
-    aspect-ratio: 1/1;
+    aspect-ratio: 1 / 1;
     object-fit: contain;
     margin: auto;
   }
@@ -735,7 +742,7 @@ body.lyrics-mode .player-buttons {
 </div>
 <script src="lyrics/lyrics.js"></script>
 <script>
-const songs = [{"id": "what-did-you-do-yesterday", "title": "What Did You Do Yesterday?", "audio": "songs/What Did You Do Yesterday.mp3", "lyrics": "what-did-you-do-yesterday", lyricsVideo: "lyrics-videos/what_did_you_do_yesterday_lyrics_video.html" }, {"id": "fantastic-world-dance", "title": "Fantastic World Dance", "audio": "songs/Fantastic World Dance.mp3", "lyrics": "fantastic-world-dance", lyricsVideo: "lyrics-videos/fantastic_world_dance_gradient_lyrics_video.html"}, {"id": "pizza-left-right", "title": "Pizza Left-Right (G201 Anthem)", "audio": "songs/Pizza Left-Right (G201 Anthem).mp3", "lyrics": "pizza-left-right", lyricsVideo: "lyrics-videos/g201_anthem_line_by_line.html"}, {"id": "what-did-you-do-yesterday-festival-remix", "title": "What Did You Do Yesterday (Festival Remix)", "audio": "songs/What Did You Do Yesterday (Festival Remix).mp3", "lyrics": "lyrics/what-did-you-do-yesterday-festival-remix.js"}, {"id": "fantastic-world-dance-eurodance-remix", "title": "Fantastic World Dance (Eurodance Remix)", "audio": "songs/Fantastic World Dance (Eurodance Remix).mp3", "lyrics": "lyrics/fantastic-world-dance-eurodance-remix.js"}, {"id": "pizza-left-right-dnb-remix", "title": "Pizza Left-Right (G201 Anthem) (Drum'n'Bass Remix)", "audio": "songs/Pizza Left-Right (G201 Anthem) (Drum'n'Bass Remix).mp3", "lyrics": "lyrics/pizza-left-right-dnb-remix.js"}];
+const songs = [{"id": "what-did-you-do-yesterday", "title": "What Did You Do Yesterday?", "audio": "songs/What Did You Do Yesterday.mp3", "lyrics": "what-did-you-do-yesterday", lyricsVideo: "lyrics-videos/what_did_you_do_yesterday_lyrics" }, {"id": "fantastic-world-dance", "title": "Fantastic World Dance", "audio": "songs/Fantastic World Dance.mp3", "lyrics": "fantastic-world-dance", lyricsVideo: "lyrics-videos/fantastic_world_dance_lyrics.html"}, {"id": "pizza-left-right", "title": "Pizza Left-Right (G201 Anthem)", "audio": "songs/Pizza Left-Right (G201 Anthem).mp3", "lyrics": "pizza-left-right", lyricsVideo: "lyrics-videos/g201_anthem_lyrics"}, {"id": "what-did-you-do-yesterday-festival-remix", "title": "What Did You Do Yesterday (Festival Remix)", "audio": "songs/What Did You Do Yesterday (Festival Remix).mp3", "lyrics": "lyrics/what-did-you-do-yesterday-festival-remix.js"}, {"id": "fantastic-world-dance-eurodance-remix", "title": "Fantastic World Dance (Eurodance Remix)", "audio": "songs/Fantastic World Dance (Eurodance Remix).mp3", "lyrics": "lyrics/fantastic-world-dance-eurodance-remix.js"}, {"id": "pizza-left-right-dnb-remix", "title": "Pizza Left-Right (G201 Anthem) (Drum'n'Bass Remix)", "audio": "songs/Pizza Left-Right (G201 Anthem) (Drum'n'Bass Remix).mp3", "lyrics": "lyrics/pizza-left-right-dnb-remix.js"}];
 
 const audio = document.getElementById("audioPlayer");
 const nowTitle = document.getElementById("nowTitle");
