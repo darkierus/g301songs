@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pizza Left-Right — Karaoke Lyrics Video</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@800;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --soft: rgba(255,255,255,.70);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #061024;
+    color: white;
+    font-family: "Segoe UI", "Inter", sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+  }
+
+  .stage {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #07101d;
+  }
+
+  .background-image {
+    position: absolute;
+    inset: -14px;
+    z-index: 0;
+    background-image: url("../covers/The coolest class in town.png");
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transform: scale(1.015);
+    filter: blur(0) brightness(.72) saturate(1.04);
+    transition:
+      filter .85s cubic-bezier(.16,1,.3,1),
+      transform .85s cubic-bezier(.16,1,.3,1);
+    will-change: filter, transform;
+  }
+
+  /* While lyrics are visible, soften and darken the picture so the words stay crisp. */
+  .stage.lyrics-visible .background-image {
+    transform: scale(1.045);
+    filter: blur(4px) brightness(.45) saturate(.92);
+  }
+
+  .stage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(to bottom, rgba(2,8,18,.10), rgba(2,8,18,.18)),
+      radial-gradient(circle at center, transparent 0 38%, rgba(0,0,0,.28) 100%);
+    pointer-events: none;
+  }
+
+  .stage::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: radial-gradient(circle at center, transparent 0 46%, rgba(0,0,0,.36) 100%);
+    pointer-events: none;
+  }
+
+  .back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 20;
+
+    padding: 10px 16px;
+    border-radius: 999px;
+
+    color: rgba(255,255,255,.85);
+    background: rgba(0,0,0,.28);
+    border: 1px solid rgba(255,255,255,.22);
+
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+.back-btn:hover {
+    background: rgba(0,0,0,.48);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.stage.lyrics-visible .back-btn {
+    opacity: .35;
+}
+
+.stage.lyrics-visible .back-btn:hover {
+    opacity: 1;
+}
+
+  .lyrics-window {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .lyrics-track {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(1200px, 94vw);
+    padding: 44vh 0;
+    opacity: 0;
+    transform: translate3d(-50%, 0, 0);
+    transition: transform 1.05s cubic-bezier(.16,1,.3,1), opacity .75s ease;
+    will-change: transform, opacity;
+  }
+
+  .line {
+    min-height: 1.78em;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .18em;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: .24em .32em .34em;
+    font-size: clamp(28px, 5.15vw, 76px);
+    line-height: 1.24;
+    font-weight: 900;
+    letter-spacing: .012em;
+    color: rgba(255,255,255,.24);
+    opacity: .34;
+    transform: scale(.82);
+    filter: blur(.35px);
+    text-shadow: 0 8px 28px rgba(0,0,0,.36);
+    transition:
+      transform .60s cubic-bezier(.16,1,.3,1),
+      color .45s ease,
+      opacity .45s ease,
+      filter .45s ease,
+      text-shadow .45s ease;
+    overflow: visible;
+  }
+
+  .line.prev, .line.next {
+    opacity: .68;
+    color: var(--soft);
+    transform: scale(.90);
+    filter: blur(0);
+  }
+
+  .line.ready {
+    opacity: .78;
+    color: rgba(255,255,255,.82);
+    transform: scale(.95);
+    filter: blur(0);
+  }
+
+  .line.active {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+    text-shadow: none;
+  }
+
+  .word {
+    position: relative;
+    display: inline-block;
+    white-space: pre;
+    color: rgba(255,255,255,.88);
+    -webkit-text-fill-color: currentColor;
+    filter: drop-shadow(0 8px 18px rgba(0,0,0,.36));
+  }
+
+  .active .word {
+    color: rgba(255,255,255,.88);
+  }
+
+  .word.done {
+    background: linear-gradient(90deg, #7ef9ff 0%, #9fffd8 25%, #fff7a8 50%, #ffd83d 75%, #ffb347 100%);
+    background-size: 220% 100%;
+    animation: activeGlow 3s linear infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 12px rgba(126,249,255,.55));
+  }
+
+  .word.current {
+    background: linear-gradient(90deg, #ff66b3 0%, #ffd83d 34%, #7ef9ff 68%, #ff66b3 100%);
+    background-size: 320% 100%;
+    animation: rainbowFlow 2.5s linear infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transform: scale(1.02);
+    filter: drop-shadow(0 0 18px rgba(255,255,255,.60));
+  }
+
+  .line.caps.active .word,
+  .line.caps.active .word.done,
+  .line.caps.active .word.current {
+    background: linear-gradient(90deg, #ff66b3 0%, #ffd83d 34%, #7ef9ff 68%, #ff66b3 100%);
+    background-size: 320% 100%;
+    animation: rainbowFlow 3.2s linear infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .line.caps.active {
+    transform: scale(1.10);
+  }
+
+  @keyframes activeGlow {
+    from { background-position: 0% 50%; }
+    to { background-position: 100% 50%; }
+  }
+
+  @keyframes rainbowFlow {
+    from { background-position: 0% 50%; }
+    to { background-position: 100% 50%; }
+  }
+
+
+  /* Line-by-line karaoke: highlight the whole active line. */
+  .line.active .word {
+    background: linear-gradient(90deg, #ff66b3 0%, #ffd83d 34%, #7ef9ff 68%, #ff66b3 100%);
+    background-size: 320% 100%;
+    animation: rainbowFlow 2.5s linear infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 18px rgba(255,255,255,.60));
+  }
+
+  .hint {
+    position: absolute;
+    left: 24px;
+    bottom: 20px;
+    z-index: 4;
+    font-size: 14px;
+    letter-spacing: .03em;
+    color: rgba(255,255,255,.68);
+    text-shadow: 0 2px 8px rgba(0,0,0,.6);
+    transition: opacity .45s ease;
+  }
+
+  .hint.hidden { opacity: 0; }
+
+  .start-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: grid;
+    place-items: center;
+    background: rgba(0,0,0,.12);
+    cursor: pointer;
+    transition: opacity .55s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .start-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .start-card {
+    padding: 18px 28px;
+    border: 2px solid rgba(255,255,255,.72);
+    border-radius: 999px;
+    background: rgba(3,10,30,.42);
+    backdrop-filter: blur(8px);
+    font-size: clamp(22px, 3vw, 42px);
+    font-weight: 900;
+    text-shadow: 0 3px 12px rgba(0,0,0,.55);
+    box-shadow: 0 16px 48px rgba(0,0,0,.34);
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  audio { display: none; }
+</style>
+</head>
+
+<body>
+  <div class="stage" id="stage">
+    <a class="back-btn" href="../index.html">← Back</a>
+    <div class="background-image" aria-hidden="true"></div>
+    <div class="lyrics-window">
+      <div class="lyrics-track" id="track"></div>
+    </div>
+
+    <div class="hint" id="hint">Click / Space = play or pause</div>
+
+    <div class="start-overlay" id="startOverlay">
+      <div class="start-card">▶ START</div>
+    </div>
+
+    <audio id="audio" src="../songs/Pizza Left-Right (G201 Anthem).mp3"></audio>
+  </div>
+
+<script>
+const lyrics = [{"time": 2.44, "text": "Anna's got a notebook,"}, {"time": 3.62, "text": "Ready with a plan."}, {"time": 4.8, "text": "Winnie starts laughing,"}, {"time": 5.92, "text": "And everybody can!"}, {"time": 7.1, "text": "Alisa says, \"Wait!\""}, {"time": 8.38, "text": "David says, \"Go!\""}, {"time": 9.64, "text": "Nobody knows"}, {"time": 10.56, "text": "What's happening, bro!"}, {"time": 12.02, "text": "Max says, \"Left!\""}, {"time": 13.2, "text": "Mark says, \"Right!\""}, {"time": 14.54, "text": "Q says, \"Pizza!\""}, {"time": 15.38, "text": "And they dance all night!"}, {"time": 16.8, "text": "Hey! Hey!"}, {"time": 18.32, "text": "This is the coolest class!"}, {"time": 21.58, "text": "Hey! Hey!"}, {"time": 23.08, "text": "We're having fun so fast!"}, {"time": 26.5, "text": "Anna!"}, {"time": 27.0, "text": "Winnie!"}, {"time": 27.52, "text": "Alisa!"}, {"time": 28.18, "text": "David!"}, {"time": 28.8, "text": "Max!"}, {"time": 29.41, "text": "Mark!"}, {"time": 29.89, "text": "And Q!"}, {"time": 31.41, "text": "Everybody sing:"}, {"time": 32.45, "text": "\"That's what we do!\""}, {"time": 37.23, "text": "That's what we do!"}, {"time": 42.03, "text": "That's what we do!"}, {"time": 43.31, "text": "Anna finds a pencil,"}, {"time": 44.43, "text": "Winnie finds two."}, {"time": 45.55, "text": "Alisa finds a mystery,"}, {"time": 46.83, "text": "Q finds a shoe."}, {"time": 48.03, "text": "David tells a story,"}, {"time": 49.27, "text": "Max starts to grin."}, {"time": 50.45, "text": "Mark says, \"Let's go!\""}, {"time": 51.97, "text": "And the trouble begins."}, {"time": 53.01, "text": "Max says, \"Left!\""}, {"time": 54.03, "text": "Mark says, \"Right!\""}, {"time": 55.19, "text": "Q says, \"Pizza!\""}, {"time": 56.19, "text": "And they dance all night."}, {"time": 57.61, "text": "Hey! Hey!"}, {"time": 59.13, "text": "This is the coolest class!"}, {"time": 62.43, "text": "Hey! Hey!"}, {"time": 63.95, "text": "We're having fun so fast!"}, {"time": 66.49, "text": "Anna!"}, {"time": 67.81, "text": "Winnie!"}, {"time": 68.33, "text": "Alisa!"}, {"time": 69.01, "text": "David!"}, {"time": 69.63, "text": "Max!"}, {"time": 70.23, "text": "Mark!"}, {"time": 70.71, "text": "And Q!"}, {"time": 72.23, "text": "Everybody sing:"}, {"time": 73.27, "text": "\"That's what we do!\""}, {"time": 78.05, "text": "That's what we do!"}, {"time": 82.85, "text": "That's what we do!"}, {"time": 84.11, "text": "Who's got a pencil?"}, {"time": 85.27, "text": "Who's got a pen?"}, {"time": 86.31, "text": "Who's ready to do it"}, {"time": 87.55, "text": "Again and again?"}, {"time": 88.94, "text": "Everybody ready?"}, {"time": 90.23, "text": "ONE!"}, {"time": 90.66, "text": "TWO!"}, {"time": 91.23, "text": "THREE!"}, {"time": 93.67, "text": "Hey! Hey!"}, {"time": 95.16, "text": "This is the coolest class!"}, {"time": 98.52, "text": "Hey! Hey!"}, {"time": 99.96, "text": "We're having fun so fast!"}, {"time": 102.52, "text": "Anna!"}, {"time": 103.84, "text": "Winnie!"}, {"time": 104.36, "text": "Alisa!"}, {"time": 105.04, "text": "David!"}, {"time": 105.66, "text": "Max!"}, {"time": 106.24, "text": "Mark!"}, {"time": 106.74, "text": "And Q!"}, {"time": 108.26, "text": "Everybody sing:"}, {"time": 109.3, "text": "\"That's what we do!\""}, {"time": 110.46, "text": "That's what we do!"}, {"time": 114.08, "text": "That's what we do!"}];
+
+const audio = document.getElementById("audio");
+const track = document.getElementById("track");
+const stage = document.getElementById("stage");
+const startOverlay = document.getElementById("startOverlay");
+const hint = document.getElementById("hint");
+
+const PRE_ROLL = 2.2;
+const END_FADE_DELAY = 3.1;
+
+let wakeLock = null;
+
+async function requestWakeLock() {
+  try {
+    if ("wakeLock" in navigator) {
+      wakeLock = await navigator.wakeLock.request("screen");
+    }
+  } catch (err) {
+    console.log("Wake Lock failed:", err);
+  }
+}
+
+async function releaseWakeLock() {
+  try {
+    if (wakeLock) {
+      await wakeLock.release();
+      wakeLock = null;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+}
+
+function isCaps(text) {
+  return text === text.toUpperCase() && /[A-Z]/.test(text);
+}
+
+function renderLine(line, i) {
+  return `<div class="line ${isCaps(line.text) ? "caps" : ""}" data-i="${i}"><span class="word">${escapeHtml(line.text)}</span></div>`;
+}
+
+track.innerHTML = lyrics.map(renderLine).join("");
+
+const lineEls = [...document.querySelectorAll(".line")];
+let state = "";
+
+function findActiveLine(t) {
+  let lo = 0, hi = lyrics.length - 1, ans = -1;
+  while (lo <= hi) {
+    const mid = (lo + hi) >> 1;
+    if (lyrics[mid].time <= t + 0.05) { ans = mid; lo = mid + 1; }
+    else hi = mid - 1;
+  }
+  return ans;
+}
+
+function centerLine(idx) {
+  const el = lineEls[idx];
+  if (!el) return;
+  const center = el.offsetTop + el.offsetHeight / 2;
+  track.style.transform = `translate3d(-50%, calc(-${center}px), 0)`;
+}
+
+
+function update() {
+  const t = audio.currentTime || 0;
+  const firstTime = lyrics[0].time;
+  const lastLine = lyrics[lyrics.length - 1];
+  const lastTime = lastLine.time;
+
+  let idx = findActiveLine(t);
+  let mode = "active";
+
+  if (idx < 0 && t >= firstTime - PRE_ROLL) {
+    idx = 0;
+    mode = "ready";
+  }
+
+  const shouldHide = t < firstTime - PRE_ROLL || t > lastTime + END_FADE_DELAY || audio.ended;
+  track.style.opacity = shouldHide ? "0" : "1";
+  stage.classList.toggle("lyrics-visible", !shouldHide);
+
+  const newState = `${idx}:${mode}:${shouldHide}`;
+  if (newState !== state) {
+    state = newState;
+    lineEls.forEach(el => {
+      el.classList.remove("active", "ready", "prev", "next");
+      el.querySelectorAll(".word").forEach(w => w.classList.remove("done", "current"));
+    });
+
+    if (idx >= 0 && !shouldHide) {
+      lineEls[idx].classList.add(mode);
+      if (lineEls[idx - 1]) lineEls[idx - 1].classList.add("prev");
+      if (lineEls[idx + 1]) lineEls[idx + 1].classList.add("next");
+      centerLine(idx);
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+
+async function togglePlay() {
+  if (audio.paused) {
+    try {
+      await audio.play();
+      await requestWakeLock();
+      startOverlay.classList.add("hidden");
+      setTimeout(() => hint.classList.add("hidden"), 2400);
+    } catch (e) {
+      console.warn(e);
+    }
+  } else {
+    audio.pause();
+    await releaseWakeLock();
+  }
+}
+
+stage.addEventListener("click", togglePlay);
+
+document.addEventListener("keydown", e => {
+  if (e.code === "Space") {
+    e.preventDefault();
+    togglePlay();
+  }
+});
+
+audio.addEventListener("ended", async () => {
+  await releaseWakeLock();
+  startOverlay.classList.remove("hidden");
+  startOverlay.querySelector(".start-card").textContent = "↻ REPLAY";
+});
+
+document.addEventListener("visibilitychange", async () => {
+  if (wakeLock !== null && document.visibilityState === "visible" && !audio.paused) {
+    await requestWakeLock();
+  }
+});
+
+requestAnimationFrame(update);
+</script>
+</body>
+</html>

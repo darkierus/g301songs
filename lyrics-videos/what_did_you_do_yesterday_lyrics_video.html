@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>What Did You Do Yesterday? — Lyrics Video</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --active: #7ef9ff;
+    --chorus: #ffd83d;
+    --dance: #ff5ca8;
+    --soft: rgba(255,255,255,.70);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #061024;
+    color: white;
+    font-family: "Segoe UI", "Inter", sans-serif;
+  }
+  body {
+    display: grid;
+    place-items: center;
+  }
+  .stage {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #061024;
+  }
+
+  .back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 20;
+
+    padding: 10px 16px;
+    border-radius: 999px;
+
+    color: rgba(255,255,255,.85);
+    background: rgba(0,0,0,.28);
+    border: 1px solid rgba(255,255,255,.22);
+
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+.back-btn:hover {
+    background: rgba(0,0,0,.48);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.stage.lyrics-visible .back-btn {
+    opacity: .35;
+}
+
+.stage.lyrics-visible .back-btn:hover {
+    opacity: 1;
+}
+
+  .cover {
+    position: absolute;
+    inset: 0;
+    background-image: url("../covers/What did you do lyrics.png");
+    background-size: cover;
+    background-position: center;
+    transform: scale(1.035);
+    animation: coverDrift 18s ease-in-out infinite alternate;
+    transition: opacity 1.5s ease, filter 1.5s ease, transform 1.5s ease;
+  }
+  .cover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at center, rgba(4,9,24,.16), rgba(4,9,24,.62) 72%, rgba(4,9,24,.86)),
+      linear-gradient(to bottom, rgba(3,10,30,.15), rgba(3,10,30,.55));
+  }
+  .cover.dimmed {
+    opacity: .68;
+    filter: blur(2.2px) brightness(.72) saturate(1.15);
+    transform: scale(1.07);
+  }
+  @keyframes coverDrift {
+    from { transform: scale(1.035) translate3d(-.4%, -.25%, 0); }
+    to { transform: scale(1.065) translate3d(.35%, .25%, 0); }
+  }
+  .lyrics-window {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .lyrics-track {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(1200px, 94vw);
+    padding: 44vh 0;
+    opacity: 0;
+    transform: translate3d(-50%, 0, 0);
+    transition: transform 1.05s cubic-bezier(.16,1,.3,1), opacity .75s ease;
+    will-change: transform, opacity;
+  }
+  .line {
+    min-height: 1.78em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: .24em .32em .34em;
+    font-size: clamp(28px, 5.15vw, 76px);
+    line-height: 1.24;
+    font-weight: 900;
+    letter-spacing: .012em;
+    color: rgba(255,255,255,.24);
+    opacity: .34;
+    transform: scale(.82);
+    filter: blur(.35px);
+    text-shadow: 0 8px 28px rgba(0,0,0,.36);
+    transition:
+      transform .60s cubic-bezier(.16,1,.3,1),
+      color .45s ease,
+      opacity .45s ease,
+      filter .45s ease,
+      text-shadow .45s ease;
+    overflow: visible;
+  }
+  .line.prev, .line.next {
+    opacity: .68;
+    color: var(--soft);
+    transform: scale(.90);
+    filter: blur(0);
+  }
+  .line.ready {
+    opacity: .78;
+    color: rgba(255,255,255,.82);
+    transform: scale(.95);
+    filter: blur(0);
+  }
+  .line.active {
+    opacity: 1;
+    background: linear-gradient(
+      90deg,
+      #7ef9ff 0%,
+      #9fffd8 25%,
+      #fff7a8 50%,
+      #ffd83d 75%,
+      #ffb347 100%
+    );
+    background-size: 220% 100%;
+    animation: activeGlow 3s linear infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transform: scale(1);
+    filter: drop-shadow(0 0 12px rgba(126,249,255,.58));
+    text-shadow: none;
+  }
+  .line.caps.active {
+    opacity: 1;
+    background: linear-gradient(
+      90deg,
+      #ff66b3 0%,
+      #ffd83d 34%,
+      #7ef9ff 68%,
+      #ff66b3 100%
+    );
+    background-size: 320% 100%;
+    animation: rainbowFlow 4s linear infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transform: scale(1.10);
+    filter: drop-shadow(0 0 18px rgba(255,255,255,.58));
+    text-shadow: none;
+  }
+  .line.dance.active {
+    opacity: 1;
+    background: linear-gradient(
+      90deg,
+      #ff4da6 0%,
+      #ff7ad9 45%,
+      #ffd83d 100%
+    );
+    background-size: 260% 100%;
+    animation: rainbowFlow 2s linear infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transform: scale(1.20) rotate(-1deg);
+    filter: drop-shadow(0 0 22px rgba(255,120,180,.72));
+    text-shadow: none;
+  }
+  @keyframes activeGlow {
+    from { background-position: 0% 50%; }
+    to { background-position: 100% 50%; }
+  }
+  @keyframes rainbowFlow {
+    from { background-position: 0% 50%; }
+    to { background-position: 100% 50%; }
+  }
+  .hint {
+    position: absolute;
+    left: 24px;
+    bottom: 20px;
+    z-index: 4;
+    font-size: 14px;
+    letter-spacing: .03em;
+    color: rgba(255,255,255,.68);
+    text-shadow: 0 2px 8px rgba(0,0,0,.6);
+    transition: opacity .45s ease;
+  }
+  .hint.hidden { opacity: 0; }
+  .start-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: grid;
+    place-items: center;
+    background: rgba(0,0,0,.18);
+    cursor: pointer;
+    transition: opacity .55s ease;
+  }
+  .start-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .start-card {
+    padding: 18px 28px;
+    border: 2px solid rgba(255,255,255,.72);
+    border-radius: 999px;
+    background: rgba(3,10,30,.42);
+    backdrop-filter: blur(8px);
+    font-size: clamp(22px, 3vw, 42px);
+    font-weight: 900;
+    text-shadow: 0 3px 12px rgba(0,0,0,.55);
+    box-shadow: 0 16px 48px rgba(0,0,0,.34);
+  }
+  .start-overlay,
+  .start-card {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+}
+  audio { display: none; }
+</style>
+</head>
+<body>
+  <div class="stage" id="stage">
+    <a class="back-btn" href="../index.html">← Back</a>
+    <div class="cover" id="cover"></div>
+    <div class="lyrics-window">
+      <div class="lyrics-track" id="track"></div>
+    </div>
+    <div class="hint" id="hint">Click / Space = play or pause</div>
+    <div class="start-overlay" id="startOverlay">
+      <div class="start-card">▶ START</div>
+    </div>
+    <audio id="audio" src="../songs/What Did You Do Yesterday.mp3"></audio>
+  </div>
+
+<script>
+const lyrics = [{"time": 6.54, "text": "I went to the park"}, {"time": 8.18, "text": "I played on the swing"}, {"time": 9.74, "text": "I saw a red kite"}, {"time": 11.4, "text": "It danced in the spring"}, {"time": 13.04, "text": "I walked to the store"}, {"time": 14.68, "text": "I bought one small snack"}, {"time": 16.0, "text": "Then I ran back home"}, {"time": 17.74, "text": "And I looked at my map"}, {"time": 19.6, "text": "Tell me where you went"}, {"time": 21.24, "text": "Tell me what you saw"}, {"time": 22.6, "text": "Use the past tense words"}, {"time": 24.12, "text": "That’s the golden law"}, {"time": 27.74, "text": "What did you do yesterday?"}, {"time": 29.72, "text": "What did you do yesterday?"}, {"time": 33.0, "text": "I went, I saw, I played"}, {"time": 36.28, "text": "I went, I saw, I played"}, {"time": 40.74, "text": "What did you do yesterday?"}, {"time": 42.69, "text": "What did you do yesterday?"}, {"time": 45.95, "text": "At the park, at the store"}, {"time": 49.95, "text": "At the zoo, by the door"}, {"time": 55.21, "text": "I went to the zoo"}, {"time": 56.81, "text": "I fed a giraffe"}, {"time": 58.43, "text": "I took a big photo"}, {"time": 59.93, "text": "And I laughed and laughed"}, {"time": 61.73, "text": "I went to the library"}, {"time": 63.29, "text": "I found a good book"}, {"time": 64.93, "text": "I sat by the window"}, {"time": 66.43, "text": "And had a long look"}, {"time": 68.29, "text": "Tell me where you went"}, {"time": 69.91, "text": "Tell me what you did"}, {"time": 71.13, "text": "Past simple is easy"}, {"time": 72.81, "text": "Let’s sing it, kids"}, {"time": 76.37, "text": "What did you do yesterday?"}, {"time": 78.41, "text": "What did you do yesterday?"}, {"time": 81.65, "text": "I went, I saw, I played"}, {"time": 86.03, "text": "I went, I saw, I played"}, {"time": 89.41, "text": "What did you do yesterday?"}, {"time": 92.67, "text": "What did you do yesterday?"}, {"time": 94.93, "text": "At the park, at the store"}, {"time": 97.85, "text": "At the zoo, by the door"}, {"time": 103.85, "text": "I went to the school"}, {"time": 105.49, "text": "I wrote on the board"}, {"time": 107.11, "text": "I went to the café"}, {"time": 108.77, "text": "And ordered a strawberry drink"}, {"time": 110.79, "text": "I went to the museum"}, {"time": 112.41, "text": "I looked at the art"}, {"time": 113.71, "text": "Then I went home happy"}, {"time": 114.95, "text": "With the places in my heart"}, {"time": 118.53, "text": "What did you do yesterday?"}, {"time": 120.56, "text": "What did you do yesterday?"}, {"time": 123.92, "text": "I went, I saw, I played"}, {"time": 128.22, "text": "I went, I saw, I played"}, {"time": 131.58, "text": "What did you do yesterday?"}, {"time": 134.6, "text": "What did you do yesterday?"}, {"time": 137.14, "text": "At the park, at the store"}, {"time": 140.78, "text": "At the zoo, by the door"}, {"time": 146.14, "text": "What did you do yesterday?"}, {"time": 148.24, "text": "What did you do yesterday?"}, {"time": 149.68, "text": "I went, I saw, I played"}, {"time": 151.36, "text": "I went, I saw, I played"}];
+
+const audio = document.getElementById("audio");
+const track = document.getElementById("track");
+const cover = document.getElementById("cover");
+const stage = document.getElementById("stage");
+const startOverlay = document.getElementById("startOverlay");
+const hint = document.getElementById("hint");
+
+  let wakeLock = null;
+
+  async function requestWakeLock() {
+    try {
+      if ("wakeLock" in navigator) {
+        wakeLock = await navigator.wakeLock.request("screen");
+        console.log("Wake Lock active");
+      }
+    } catch (err) {
+      console.log("Wake Lock failed:", err);
+    }
+  }
+
+  async function releaseWakeLock() {
+    try {
+      if (wakeLock) {
+        await wakeLock.release();
+        wakeLock = null;
+        console.log("Wake Lock released");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+const PRE_ROLL = 2.4;
+const END_FADE_DELAY = 3.1;
+
+function classify(text) {
+  const upper = text.toUpperCase();
+  if (upper === "DANCE!") return "dance caps";
+  if (text === upper && /[A-Z]/.test(text)) return "caps";
+  return "";
+}
+
+track.innerHTML = lyrics.map((l, i) => {
+  const cls = classify(l.text);
+  return `<div class="line ${cls}" data-i="${i}">${escapeHtml(l.text)}</div>`;
+}).join("");
+
+function escapeHtml(str) {
+  return str.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+}
+
+const lineEls = [...document.querySelectorAll(".line")];
+let state = "";
+
+function findActive(t) {
+  let lo = 0, hi = lyrics.length - 1, ans = -1;
+  while (lo <= hi) {
+    const mid = (lo + hi) >> 1;
+    if (lyrics[mid].time <= t + 0.05) { ans = mid; lo = mid + 1; }
+    else hi = mid - 1;
+  }
+  return ans;
+}
+
+function centerLine(idx) {
+  const el = lineEls[idx];
+  if (!el) return;
+  const center = el.offsetTop + el.offsetHeight / 2;
+  track.style.transform = `translate3d(-50%, calc(-${center}px), 0)`;
+}
+
+function update() {
+  const t = audio.currentTime || 0;
+  const firstTime = lyrics[0].time;
+  const lastTime = lyrics[lyrics.length - 1].time;
+
+  cover.classList.toggle("dimmed", t >= firstTime - PRE_ROLL && t <= lastTime + END_FADE_DELAY);
+
+  let idx = findActive(t);
+  let mode = "active";
+
+  if (idx < 0 && t >= firstTime - PRE_ROLL) {
+    idx = 0;
+    mode = "ready";
+  }
+
+  const shouldHide = t < firstTime - PRE_ROLL || t > lastTime + END_FADE_DELAY || audio.ended;
+  track.style.opacity = shouldHide ? "0" : "1";
+
+  const newState = `${idx}:${mode}:${shouldHide}`;
+  if (newState !== state) {
+    state = newState;
+    lineEls.forEach(el => {
+      el.classList.remove("active", "ready", "prev", "next");
+    });
+
+    if (idx >= 0 && !shouldHide) {
+      lineEls[idx].classList.add(mode);
+      if (lineEls[idx - 1]) lineEls[idx - 1].classList.add("prev");
+      if (lineEls[idx + 1]) lineEls[idx + 1].classList.add("next");
+      centerLine(idx);
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+
+  async function togglePlay() {
+    if (audio.paused) {
+      try {
+        await audio.play();
+
+        await requestWakeLock();
+
+        startOverlay.classList.add("hidden");
+        setTimeout(() => hint.classList.add("hidden"), 2400);
+
+      } catch (e) {
+        console.warn(e);
+      }
+    } else {
+      audio.pause();
+
+      await releaseWakeLock();
+    }
+  }
+
+stage.addEventListener("click", togglePlay);
+document.addEventListener("keydown", e => {
+  if (e.code === "Space") {
+    e.preventDefault();
+    togglePlay();
+  }
+});
+
+  audio.addEventListener("ended", async () => {
+    await releaseWakeLock();
+
+    startOverlay.classList.remove("hidden");
+    startOverlay.querySelector(".start-card").textContent = "↻ REPLAY";
+  });
+
+  document.addEventListener("visibilitychange", async () => {
+    if (
+      wakeLock !== null &&
+      document.visibilityState === "visible" &&
+      !audio.paused
+    ) {
+      await requestWakeLock();
+    }
+  });
+
+requestAnimationFrame(update);
+</script>
+</body>
+</html>
