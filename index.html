@@ -102,9 +102,7 @@ h1{margin:0;font-size:clamp(42px,8vw,92px);line-height:.94;letter-spacing:-.055e
   line-height:1;
 }
 .icon-btn.main{background:var(--text);color:#11151d}
-#currentTime {
-transform: translateX(10px);
-}
+
 @media(max-width:720px){
   .app{padding-top:18px}.topbar{margin-bottom:22px}.brand-copy span{display:none}
   .hero{min-height:260px;border-radius:26px;margin-bottom:26px}
@@ -218,6 +216,15 @@ body.lyrics-mode .player-buttons {
   font-size:12px;
   font-variant-numeric:tabular-nums;
 }
+
+#currentTime {
+  text-align: right;
+}
+
+#duration {
+  text-align: left;
+}
+
 .progress{
   width:100%;
   accent-color:var(--accent);
