@@ -419,6 +419,14 @@ function update() {
     }
   }
 
+  const backBtn = document.querySelector(".back-btn");
+
+    backBtn.addEventListener("click", async (e) => {
+      e.stopPropagation();
+      audio.pause();
+      await releaseWakeLock();
+    });
+    
 stage.addEventListener("click", togglePlay);
 document.addEventListener("keydown", e => {
   if (e.code === "Space") {
