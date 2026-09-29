@@ -1160,7 +1160,7 @@ async function releaseScreenWakeLock() {
 audio.addEventListener("play", acquireScreenWakeLock);
 audio.addEventListener("playing", acquireScreenWakeLock);
 audio.addEventListener("pause", releaseScreenWakeLock);
-audio.addEventListener("ended", releaseScreenWakeLock);
+// audio.addEventListener("ended", releaseScreenWakeLock);
 
 document.addEventListener("visibilitychange", () => {
   if (document.visibilityState === "visible" && !audio.paused) {
@@ -1243,10 +1243,8 @@ progress.addEventListener("change", () => {
   seeking = false;
 });
 
-audio.addEventListener("ended", () => {
-  setTimeout(() => {
-    playNextTrack();
-  }, 50);
+audio.addEventListener("ended", async () => {
+  await playNextTrack();
 });
 
 if ("mediaSession" in navigator) {
