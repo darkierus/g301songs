@@ -59,8 +59,8 @@ window.lyricsDatabase = {
     { time: 137.14, text: "At the park, at the store" },
     { time: 140.78, text: "At the zoo, by the door" },
     { time: 146.14, text: "What did you do yesterday?" },
-    { time: 148.24, text: "What did you do yesterday?" },
-    { time: 152.30, text: "I went, I saw, I played" },
+    { time: 149.31, text: "What did you do yesterday?" },
+    { time: 152.50, text: "I went, I saw, I played" },
     { time: 155.67, text: "I went, I saw, I played" },
   ],
 
