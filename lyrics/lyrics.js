@@ -60,8 +60,8 @@ window.lyricsDatabase = {
     { time: 140.78, text: "At the zoo, by the door" },
     { time: 146.14, text: "What did you do yesterday?" },
     { time: 148.24, text: "What did you do yesterday?" },
-    { time: 149.68, text: "I went, I saw, I played" },
-    { time: 151.36, text: "I went, I saw, I played" },
+    { time: 152.30, text: "I went, I saw, I played" },
+    { time: 155.67, text: "I went, I saw, I played" },
   ],
 
   "fantastic-world-dance": [
